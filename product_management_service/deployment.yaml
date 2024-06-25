@@ -1,0 +1,46 @@
+# product_management_service/deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: product-management-service
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: product-management-service
+  template:
+    metadata:
+      labels:
+        app: product-management-service
+    spec:
+      containers:
+      - name: product-management-service
+        image: fakertaker/product-management-service:latest
+        ports:
+        - containerPort: 5001
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: product-management-service
+spec:
+  type: LoadBalancer
+  ports:
+  - port: 5001
+    targetPort: 5001
+    nodePort: 30001
+  selector:
+    app: product-management-service
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: product-management-service-clusterip
+spec:
+  type: ClusterIP
+  ports:
+  - port: 5001
+    targetPort: 5001
+  selector:
+    app: product-management-service
+
