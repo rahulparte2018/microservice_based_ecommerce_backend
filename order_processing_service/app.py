@@ -14,6 +14,14 @@ app.config['SECRET_KEY'] = 'user_authentication_service'
 username = "order_processing_service"
 password = "orderprocessingservice"
 
+requests.post(
+    url="http://user-auth-service-clusterip.default.svc.cluster.local:5000/register",
+    json={
+            'username' : username,
+            'password' : password
+        }
+)
+
 response_token = requests.post(
         url="http://user-auth-service-clusterip.default.svc.cluster.local:5000/login",
         json={
